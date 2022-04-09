@@ -1,0 +1,42 @@
+server:
+  port: 8005
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: 127.0.0.1:${server.port}
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8003/eureka/
+
+spring:
+  application:
+    name: service-zuul
+  cloud:
+    config:
+      label: master
+      name: zuul
+      profile: devmac
+      fail-fast: true
+      username: 1324747110@qq.com
+      password: 6693155peter
+      # retry 访问配置中心失败时的重试策略
+      retry:
+        initial-interval: 2000
+        # 最多重试次数
+        max-attempts: 6
+        # 最大重试间隔
+        max-interval: 4000
+        # 每次重试时间是之前的倍数
+        multiplier: 1.2
+      discovery:
+        enabled: true
+        service-id: service-configserver
+
+zuul:
+  routes:
+    api-system: #会员服务网关配置
+      path: /api-system/**   #访问只要是/api-system/ 开头的直接转发到member-service服务
+      #服务名
+      serviceId: service-consumer
+  ignored-services: "*"  #隐藏服务名

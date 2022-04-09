@@ -1,0 +1,26 @@
+server:
+  port: 8004
+
+eureka:
+  instance:
+    instance-id: 127.0.0.1:${server.port}
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8003/eureka/
+
+spring:
+  application:
+    name: service-configserver
+  cloud:
+    config:
+      server:
+        # 这里实用git协议从github、码云获取配置文件，也可以换成svn协议
+           git:
+                  uri: https://github.com/winjayok/typora-note
+                  # default-label 指定默认的分支名称
+                  default-label: master
+                  # search-paths 如果配置文件不是放在分支根目录，则实用该属性指向文件夹，如下例代表：在master根目录的dev文件夹下查找配置文件
+                  search-paths: dev
+                  username: 1324747110@qq.com
+                  password: 6693155peter

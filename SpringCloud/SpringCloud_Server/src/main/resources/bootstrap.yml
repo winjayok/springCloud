@@ -1,0 +1,37 @@
+server:
+  port: 9001
+
+eureka:
+  instance:
+    instance-id: 127.0.0.1:${server.port}
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8003/eureka/
+
+spring:
+  application:
+    name: service-consumer
+  cloud:
+    config:
+      label: master
+      name: office,zuul
+      profile: devmac
+      fail-fast: true
+      username: 1324747110@qq.com
+      password: 6693155peter
+        # retry 访问配置中心失败时的重试策略
+      retry:
+          initial-interval: 2000
+          # 最多重试次数
+          max-attempts: 6
+          # 最大重试间隔
+          max-interval: 4000
+          # 每次重试时间是之前的倍数
+          multiplier: 1.2
+      discovery:
+        enabled: true
+        service-id: service-configserver
+
+
+

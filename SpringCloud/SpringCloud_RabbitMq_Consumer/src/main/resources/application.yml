@@ -1,0 +1,13 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: rabbit-mq-consumer
+#    配置mq
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: winjay
+    password: 123456
+    virtual-host: /
