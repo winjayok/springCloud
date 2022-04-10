@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@ComponentScan(value = "com.example.utils")
+@ComponentScan(basePackages = {"com.example.config","com.example.componentUtils"})
 public class ServerApplication {
 
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package com.example.utils;
+package com.example.componentUtils;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
@@ -22,7 +22,7 @@ import java.util.TimeZone;
 
 @Component
 @PropertySource(value = "classpath:common-devmac.yml")
-public class FtpUtils {
+public class FtpUtil {
 
     @Value("${ftp.host}")
     private static String hostname;
