@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
+        <groupId>com.wj</groupId>
         <artifactId>SpringCloud</artifactId>
-        <groupId>com.example</groupId>
         <version>1.1.0</version>
     </parent>
 
-    <groupId>com.example</groupId>
+    <groupId>com.wj</groupId>
     <artifactId>springCloud_config</artifactId>
-    <version>1.1.0</version>
+    <version>${parent.version}</version>
     <name>SpringCloud_Config</name>
     <packaging>jar</packaging>
     <description>SpringCloud_Config</description>
@@ -35,7 +35,8 @@
     </dependencies>
 
     <build>
-        <plugins>
+    <finalName>${name}-${parent.version}</finalName>
+    <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

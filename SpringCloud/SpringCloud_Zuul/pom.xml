@@ -5,13 +5,13 @@
 
     <parent>
         <artifactId>SpringCloud</artifactId>
-        <groupId>com.example</groupId>
+        <groupId>com.wj</groupId>
         <version>1.1.0</version>
     </parent>
 
-    <groupId>com.example</groupId>
+    <groupId>com.wj</groupId>
     <artifactId>springCloud_zuul</artifactId>
-    <version>1.1.0</version>
+    <version>${parent.version}</version>
     <name>SpringCloud_Zuul</name>
     <description>SpringCloud_Zuul</description>
 
@@ -24,6 +24,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>guava</artifactId>
+                    <groupId>com.google.guava</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- SpringCloud配置启动器 -->
@@ -42,6 +48,26 @@
             <groupId>org.springframework.retry</groupId>
             <artifactId>spring-retry</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.wj</groupId>
+            <artifactId>common</artifactId>
+            <version>1.1.0</version>
+        </dependency>
     </dependencies>
 
+
+    <build>
+        <finalName>${name}-${parent.version}</finalName>
+        <plugins>
+            <plugin>
+                <!--跳过打包测试-->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

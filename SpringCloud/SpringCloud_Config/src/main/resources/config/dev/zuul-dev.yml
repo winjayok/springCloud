@@ -1,7 +1,16 @@
+#路由匹配规则：
+#/user-service/? 很少用，支持/user-service/后拼接任意一个字符，例如/user-service/a、/user-service/1，不支持/user-service/123
+#/user-service/* 较少用，支持/user-service/后拼接任意一个字符例如/user-service/abc、/user-service/1，不支持多级目录/user-service/abc/b
+#/user-service/** 通用，只要以/user-service/开头就可以，后面路径没要求。
+#如果路由规则有交集的部分，只能使用YAML文件来做application的配置文件，不能使用properties，因为YAML是有序的（流解析），properties无序的（HashMap）。
+ # sensitiveHeaders 敏感信息设置，如果不配置，zuul将会过滤敏感信息，导致无法实现session共享
 zuul:
+#在服务前统一加前缀
+  prefix: /winjay
+  #ignored-services: microservicecloud-dept   # 要隐藏的服务名称
+  ignored-services: "*"  # 代表忽略所有的，即不能通过真实服务名路径访问，只能用替换会后的名，遵守单一入口原则
   routes:
-    api-system: #会员服务网关配置
-      path: /api-system/**   #访问只要是/api-system/ 开头的直接转发到member-service服务
-      #服务名
-      serviceId: service-server
-  ignored-services: "*"  #隐藏服务名
+      system-api:  # 接口服务
+        path: /system-api/**
+        serviceId: service-server
+        sensitiveHeaders: "*"

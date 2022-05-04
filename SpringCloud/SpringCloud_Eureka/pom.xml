@@ -5,14 +5,13 @@
 
     <parent>
         <artifactId>SpringCloud</artifactId>
-        <groupId>com.example</groupId>
+        <groupId>com.wj</groupId>
         <version>1.1.0</version>
     </parent>
 
-    <groupId>com.example</groupId>
+    <groupId>com.wj</groupId>
     <artifactId>springCloud_eureka</artifactId>
-    <version>1.1.0</version>
-    <packaging>jar</packaging>
+    <version>${parent.version}</version>
     <name>SpringCloud_Eureka</name>
     <description>SpringCloud_Eureka</description>
 
@@ -34,7 +33,7 @@
 
 
 
-    <build>
+    <build><finalName>${name}-${parent.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

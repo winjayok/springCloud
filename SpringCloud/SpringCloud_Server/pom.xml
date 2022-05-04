@@ -5,13 +5,13 @@
 
     <parent>
         <artifactId>SpringCloud</artifactId>
-        <groupId>com.example</groupId>
+        <groupId>com.wj</groupId>
         <version>1.1.0</version>
     </parent>
 
-    <groupId>com.example</groupId>
+    <groupId>com.wj</groupId>
     <artifactId>springcloud_server</artifactId>
-    <version>1.1.0</version>
+    <version>${parent.version}</version>
     <name>SpringCloud_Server</name>
     <description>SpringCloud_Server</description>
 
@@ -19,6 +19,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <!--排出内部的日志依赖-->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -36,21 +43,73 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
+
         <!--引入工具类jar包-->
         <dependency>
-            <groupId>com.example</groupId>
-            <artifactId>springCloud_common</artifactId>
-            <version>1.1.0</version>
+            <groupId>com.wj</groupId>
+            <artifactId>common</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+
+        <!--引入数据库jar包-->
+        <dependency>
+            <groupId>com.wj</groupId>
+            <artifactId>dataSource</artifactId>
+            <version>${parent.version}</version>
+            <exclusions>
+                <!--排出内部的依赖-->
+                <exclusion>
+                    <groupId>com.wj</groupId>
+                    <artifactId>common</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!--引入openfeign包-->
+        <dependency>
+            <groupId>com.wj</groupId>
+            <artifactId>springCloud_feign</artifactId>
+            <version>${parent.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.security</groupId>
+                    <artifactId>spring-security-rsa</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.security</groupId>
+                    <artifactId>spring-security-crypto</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>HdrHistogram</artifactId>
+                    <groupId>org.hdrhistogram</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
     <build>
-        <plugins>
+    <finalName>${name}-${parent.version}</finalName>
+    <resources>
+        <resource>
+            <directory>src/main/java</directory><!--java文件的路径-->
+            <includes>
+                <include>**/*.*</include>
+            </includes>
+            <!-- <filtering>false</filtering>-->
+        </resource>
+        <resource>
+            <directory>src/main/resources</directory><!--资源文件的路径-->
+            <includes>
+                <include>**/*.*</include>
+            </includes>
+            <!-- <filtering>false</filtering>-->
+        </resource>
+    </resources>
+    <plugins>
             <plugin>
                 <!--跳过打包测试-->
                 <groupId>org.apache.maven.plugins</groupId>

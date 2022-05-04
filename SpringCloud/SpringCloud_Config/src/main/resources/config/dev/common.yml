@@ -1,3 +1,0 @@
-logging:
-  config: classpath:config/dev/log4j2-spring.xml
-  path: I:/git_project/统一路径

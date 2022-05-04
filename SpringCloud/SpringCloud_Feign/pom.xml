@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>SpringCloud</artifactId>
+        <groupId>com.wj</groupId>
+        <version>1.1.0</version>
+    </parent>
+
+    <groupId>com.wj</groupId>
+    <artifactId>springCloud_feign</artifactId>
+    <version>1.1.0</version>
+    <name>SpringCloud_feign</name>
+    <description>SpringCloud_feign</description>
+
+    <dependencies>
+        <!--openFeign-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${name}-${parent.version}</finalName>
+        <plugins>
+            <plugin>
+                <!--跳过打包测试-->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

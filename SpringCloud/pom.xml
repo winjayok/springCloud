@@ -3,21 +3,35 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example</groupId>
+    <groupId>com.wj</groupId>
     <artifactId>SpringCloud</artifactId>
     <version>1.1.0</version>
     <name>SpringCloud</name>
     <packaging>pom</packaging>
 
     <modules>
+        <module>Common</module>
+        <module>DataSource</module>
+        <module>SpringCloud_Feign</module>
         <module>SpringCloud_Eureka</module>
         <module>SpringCloud_Config</module>
         <module>SpringCloud_Zuul</module>
-        <module>Common</module>
         <module>SpringCloud_Server</module>
-        <module>SpringCloud_RabbitMq_Producer</module>
-        <module>SpringCloud_RabbitMq_Consumer</module>
+<!--        <module>SpringCloud_RabbitMq_Producer</module>-->
+<!--        <module>SpringCloud_RabbitMq_Consumer</module>-->
     </modules>
+
+    <!--发现依赖和扩展的远程仓库列表。 -->
+    <repositories>
+        <repository>
+            <!--远程仓库唯一标识符。可以用来匹配在settings.xml文件里配置的远程仓库 -->
+            <id>nexus-aliyun</id>
+            <!--远程仓库名称 -->
+            <name>Nexus aliyun</name>
+            <!--远程仓库URL，按protocol://hostname/path形式 -->
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+        </repository>
+    </repositories>
 
     <!--
         1.首先springboot的核心就是starter模块核心依赖和autoconfiguration自动配置
@@ -72,6 +86,27 @@
         <!--springboot和springcloud版本必须对应，详情网上找-->
         <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
+        <!-- slf4j+log4j2依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+    </dependencies>
 
     <!--中央仓库-->
 <!--    <repositories>-->
