@@ -14,5 +14,9 @@ eureka:
 
 spring:
   application:
-    name: eureka-server
+    name: service-eureka
 
+logging:
+  config: I:/git_project/统一日志/log4j2-spring.xml
+  file:
+    path: I:/git_project/统一日志/${spring.application.name}

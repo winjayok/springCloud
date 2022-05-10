@@ -30,10 +30,11 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
         teacher.setName("李飒飒");
         baseMapper.updateById(teacher);
         this.setobj2();
-        Student student = new Student();
-        student.setId(1);
-        student.setName("张三思si");
-        studentService.setObj1(student);
+        Student byId = studentService.getOne(1);
+//        Student student = new Student();
+//        student.setId(1);
+//        student.setName("张三思si");
+//        studentService.setObj1(student);
         return true;
     }
 

@@ -1,5 +1,6 @@
 package com.wj.frame.server.controller;
 
+import com.wj.feignApi.StudentFeignApi;
 import com.wj.frame.entity.student.Student;
 import com.wj.frame.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +20,25 @@ public class StudentController {
 
     @Autowired
     private StudentService studentService;
-
+    @Autowired
+    private StudentFeignApi studentFeignApi;
     @RequestMapping("/getUserId")
-    public String GetId(){
+    public String GetId() throws InterruptedException {
         Student student = studentService.getById(1);
         return student.toString();
     }
 
+    @RequestMapping("/test")
+    public String test() throws InterruptedException {
+        return studentFeignApi.getUserId();
+    }
+
+
     @RequestMapping("/setObj")
     public String setObj(){
         Student student = new Student();
-        student.setId(1);
-        student.setName("张三思");
+        student.setClassNo("66");
+        student.setName("张思");
         studentService.setObj(student);
         return "ok";
     }

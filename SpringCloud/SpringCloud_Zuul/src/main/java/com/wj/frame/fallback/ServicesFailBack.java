@@ -20,15 +20,22 @@ import java.io.InputStream;
 /**
  * 请求失败反馈
  *
- * @Description: 网关请求失败反馈
- * @Package com.frame.zuul
- * @author 越秀开发组
+ * @Description: 网关熔断处理
+ * @Package com.wj.frame.fallback
+ * @author winjay
+ * @Date: 2022-04-30 19:59:45
  */
 @Component
 public class ServicesFailBack implements FallbackProvider {
 
     private Logger log = LoggerFactory.getLogger(ServicesFailBack.class);
 
+    /**
+     * 推荐 - 为指定的服务定义特性化的fallback逻辑
+     * 推荐 - 提供一个处理所有服务的fallback逻辑
+     * 好处 - 某个服务发生超时，那么指定的fallback逻辑执行。如果有新服务上线，未提供fallback逻辑还有个通用的
+     * *代表全部
+     **/
     @Override
     public String getRoute() {
         // 可以单个服务id，也用* 或者 null 代表所有服务都过滤
@@ -69,7 +76,7 @@ public class ServicesFailBack implements FallbackProvider {
 
                 JSONObject jo = new JSONObject();
                 jo.put("code", 500);
-                jo.put("message", "Server Error!");
+                jo.put("message",  "由于其他服务访问量过大，当前服务已降级处理！");
                 return new ByteArrayInputStream(JSON.toJSONBytes(jo));
             }
 
