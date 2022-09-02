@@ -6,6 +6,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 /**
  * @PackageName: com.example.consumer.receive
  * @ClassName: receiveMessage
@@ -22,19 +24,9 @@ public class receiveMessage {
      * 使用注解来让监听器监听对应的队列即可。配置上了的话，其实消费者也是生成者的身份，也能推送该消息。
      */
     @RabbitHandler
-    public void receiveMessage(Object message){
-        try {
-            System.out.println("接受到一条消息："+ message.toString());
-        }catch (Exception e){
-            System.out.println("接受失败："+ e.getMessage());
-
-        }
-        try {
-            Gson gson = new Gson();
-            MessageVo messageVo = gson.fromJson(message.toString(), MessageVo.class);
-            System.out.println(messageVo.toString());
-        }catch (Exception e){
-            System.out.println(e.getCause());
+    public void receiveMessage(Map<String,Object> map){
+        for (String k:map.keySet()) {
+            System.out.println(map.get(k));
         }
     }
 }

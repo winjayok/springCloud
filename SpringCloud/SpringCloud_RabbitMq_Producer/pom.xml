@@ -17,12 +17,18 @@
     <description>SpringCloud_RabbitMq_Producer</description>
 
     <dependencies>
+        <!--web 组件，默认tomcat-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <!--测试组件-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
 
-
+        <!--eureka 发现-->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.cloud</groupId>-->
 <!--            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
@@ -55,7 +61,8 @@
 
 
 
-    <build><finalName>${name}-${parent.version}</finalName>
+    <build>
+        <finalName>${name}-${parent.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

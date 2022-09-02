@@ -17,21 +17,21 @@
         <module>SpringCloud_Config</module>
         <module>SpringCloud_Zuul</module>
         <module>SpringCloud_Server</module>
-<!--        <module>SpringCloud_RabbitMq_Producer</module>-->
-<!--        <module>SpringCloud_RabbitMq_Consumer</module>-->
+        <module>SpringCloud_RabbitMq_Producer</module>
+        <module>SpringCloud_RabbitMq_Consumer</module>
     </modules>
 
     <!--发现依赖和扩展的远程仓库列表。 -->
-    <repositories>
-        <repository>
-            <!--远程仓库唯一标识符。可以用来匹配在settings.xml文件里配置的远程仓库 -->
-            <id>nexus-aliyun</id>
-            <!--远程仓库名称 -->
-            <name>Nexus aliyun</name>
-            <!--远程仓库URL，按protocol://hostname/path形式 -->
-            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
-        </repository>
-    </repositories>
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            &lt;!&ndash;远程仓库唯一标识符。可以用来匹配在settings.xml文件里配置的远程仓库 &ndash;&gt;-->
+<!--            <id>nexus-aliyun</id>-->
+<!--            &lt;!&ndash;远程仓库名称 &ndash;&gt;-->
+<!--            <name>Nexus aliyun</name>-->
+<!--            &lt;!&ndash;远程仓库URL，按protocol://hostname/path形式 &ndash;&gt;-->
+<!--            <url>http://maven.aliyun.com/nexus/content/groups/public</url>-->
+<!--        </repository>-->
+<!--    </repositories>-->
 
     <!--
         1.首先springboot的核心就是starter模块核心依赖和autoconfiguration自动配置
@@ -117,4 +117,18 @@
 <!--        </repository>-->
 <!--    </repositories>-->
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <skip>true</skip>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
