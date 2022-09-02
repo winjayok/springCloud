@@ -11,7 +11,7 @@ eureka:
 
 spring:
   application:
-    name: service-configserver
+    name: service-config
   profiles:
     # #配置文件如果说本地默认说配置中心resource路径下
     active: native
@@ -29,3 +29,7 @@ spring:
 #               search-paths: dev
 #               username: 1324747110@qq.com
 #               password: 6693155peter
+logging:
+  config: I:/git_project/统一日志/log4j2-spring.xml
+  file:
+    path: I:/git_project/统一日志/${spring.application.name}

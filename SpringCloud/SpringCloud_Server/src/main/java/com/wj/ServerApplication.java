@@ -16,7 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients
+@EnableFeignClients     //开启openfeign远程调用
 /*默认扫描当前启动类的下的所有包路径，但需要扫描第三方模块的包，因此需要自己定义扫描路径，否则注解不生效*/
 @ComponentScan(basePackages = {"com.wj.frame","com.wj.module.mybatis","com.wj.module.redis"})
 @MapperScan(basePackages = {"com.wj.**.mapper"})

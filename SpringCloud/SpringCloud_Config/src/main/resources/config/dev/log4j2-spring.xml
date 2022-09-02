@@ -3,37 +3,38 @@
 <!--monitorInterval，重新读取配置文件的间隔时间，单位为秒-->
 <Configuration status="OFF" monitorInterval="5">
     <!--Properties，属性（可选），用来定义常量，之后在其他配置项中通过${变量名}引用-->
+    <!-- ==============================================公共配置 start============================================== -->
     <Properties>
         <!--sys:LOG_PATH 的值即为 获取logging.file.path的值-->
         <property name="LOG_HOME" value="${sys:LOG_PATH}"/>
-        <!-- Appender在将日志数据写入目标位置之前，一般会将日志数据通过Layout进行格式化。PatternLayout可以使用与C语言printf函数类似
-        的转换模式来指定输出格式。常见的配置如下：
-        - %d{yyyy-MM-dd HH:mm:ss.SSS} : 日志生成时间，输出格式为“年-月-日 时:分:秒.毫秒”
-        - %p : 日志输出格式
-        - %c : logger的名称
-        - %m : 日志内容，即 logger.info("message")
-        - %n : 换行符
-        - %T : 线程号
-        - %L : 日志输出所在行数
-        - %M : 日志输出所在方法名
-        %level，日志级别，比如FATAL、ERROR、WARN、INFO、DEBUG、RACE；
-        %thread，线程名字；
-        %l，位置信息，等同于%C.%M(%F:%L)；
-        %C、%class，完整类名；
-        %M、%method，方法名；
-        %F、%file，文件名；
-        %n，换行；
-        -->
-        <property  name="springAppPort" value="${spring:spring.server.port}" />
-        <property  name="springAppEnv" value="${spring:profiles.active}" />
-        <property name="LOG_INFO_FILE" value="${BUILD_FOLDER:-logs}/${springAppName}-${springAppPort}.log" />
-        <property name="CONSOLE_LOG_PATTERN" value="[%p] %d{yyyy-MM-dd HH:mm:ss S} - %m%n" />
-        <property name="CONSOLE_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</property>
+        <!--
+           - %d{yyyy-MM-dd HH:mm:ss.SSS} : 日志生成时间，输出格式为“年-月-日 时:分:秒.毫秒”
+           - %p : 日志输出格式
+           - %c : logger的名称
+           - %m : 日志内容，即 logger.info("message")
+           - %n : 换行符
+           - %T : 线程号
+           - %L : 日志输出所在行数
+           - %M : 日志输出所在方法名
+           %level，日志级别，比如FATAL、ERROR、WARN、INFO、DEBUG、RACE；
+           %thread，线程名字；
+           %l，位置信息，等同于%C.%M(%F:%L)；
+           %C、%class，完整类名；
+           %M、%method，方法名；
+           %F、%file，文件名；
+           %n，换行；
+           -->
+        <property name="CONSOLE_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %highlight{%-5level}{ERROR=Bright RED, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White} %logger{50} - %style{%msg}{bright,magenta}%n</property>
         <property name="DEFAULT_PATTERN">[%date{yyyy-MM-dd HH:mm:ss}] [%-5level] [%logger:%line]--%mdc{client} %msg%n</property>
         <property name="CHARSET">UTF-8</property>
+        <!-- 日志默认同类型日志,多久生成一个新的日志文件,这个配置需要和filePattern结合使用;
+               如果设置为1,filePattern是%d{yyyy-MM-dd}到天的格式,则间隔一天生成一个文件
+               如果设置为12,filePattern是%d{yyyy-MM-dd-HH}到小时的格式,则间隔12小时生成一个文件 -->
+        <property name="FILE_SIZE">10MB</property>
         <property name="FILE_SIZE">10MB</property>
         <property name="FILE_INDEX_MAX">30</property>
     </Properties>
+    <!-- ==============================================公共配置 end============================================== -->
 
     <!--Appenders，输出源，用于定义日志输出的地方-->
     <Appenders>
@@ -44,6 +45,10 @@
             </PatternLayout>
         </Console>
 
+        <!--RollingRandomAccessFile，按照一定的规则滚动文件-->
+        <!--name，指定Appender的名字-->
+        <!--fileName，当前日志文件的路径和名字-->
+        <!--filePattern，当发生滚动时，文件的转移和重命名规则-->
         <!-- DEBUG 配置-->
         <RollingRandomAccessFile name="DEBUG-APPENDER"
                                  fileName="${LOG_HOME}/debug.log"
@@ -54,6 +59,7 @@
                 <Pattern>${DEFAULT_PATTERN}</Pattern>
             </PatternLayout>
             <Policies>
+
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
                 <SizeBasedTriggeringPolicy size="${FILE_SIZE}"/>
             </Policies>
@@ -61,10 +67,6 @@
         </RollingRandomAccessFile>
 
         <!-- INFO 配置-->
-        <!--RollingRandomAccessFile，按照一定的规则滚动文件-->
-        <!--name，指定Appender的名字-->
-        <!--fileName，当前日志文件的路径和名字-->
-        <!--filePattern，当发生滚动时，文件的转移和重命名规则-->
         <RollingRandomAccessFile name="INFO-APPENDER"
                                  fileName="${LOG_HOME}/info.log"
                                  filePattern="${LOG_HOME}/%d{yyyyMMdd}/info-%d{yyyyMMdd}-%i.log">

@@ -21,6 +21,10 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
         <!-- fastjson、jackson格式处理包-->
         <dependency>
             <groupId>com.alibaba</groupId>

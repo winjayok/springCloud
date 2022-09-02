@@ -1,5 +1,7 @@
 package com.wj.frame.entity.student;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -25,6 +27,28 @@ public class Student implements Serializable {
     private String classNo;
 
     private String number;
+
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private String createTime;
+
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private String delFlag;
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag;
+    }
 
     public String getName() {
         return name;

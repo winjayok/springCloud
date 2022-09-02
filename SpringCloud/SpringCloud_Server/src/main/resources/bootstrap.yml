@@ -37,7 +37,5 @@ spring:
         # 开启配置中心服务发现支持
         enabled: true
         # 配置中心服务的id
-        service-id: service-configserver
-
-
+        service-id: service-config
 

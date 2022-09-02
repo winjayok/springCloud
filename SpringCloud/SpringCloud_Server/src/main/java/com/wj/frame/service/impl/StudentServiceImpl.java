@@ -28,8 +28,8 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
     @Override
     public boolean setObj(Student student) {
-        baseMapper.updateById(student);
-        teacherService.setObj(1);
+        baseMapper.insert(student);
+        //teacherService.setObj(1);
         return true;
     }
 
@@ -37,6 +37,11 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     public boolean setObj1(Student student) {
         baseMapper.updateById(student);
         return false;
+    }
+
+    @Override
+    public Student getOne(Integer id) {
+        return this.baseMapper.selectById(id);
     }
 }
 

@@ -7,10 +7,46 @@
 zuul:
 #在服务前统一加前缀
   prefix: /winjay
+  host:
+      max-total-connections: 200
+      max-per-route-connections: 20
+      #以下两个配置也是解决zuul超时的
+      #和使用ribbon.ReadTimeout的区别是，如果路由配置使用service-id的方式，那么ribbon.ReadTimeout生效，如果使用url的方式，此配置生效
+      connect-timeout-millis: 10000
+      socket-timeout-millis: 10000
   #ignored-services: microservicecloud-dept   # 要隐藏的服务名称
   ignored-services: "*"  # 代表忽略所有的，即不能通过真实服务名路径访问，只能用替换会后的名，遵守单一入口原则
   routes:
-      system-api:  # 接口服务
-        path: /system-api/**
-        serviceId: service-server
-        sensitiveHeaders: "*"
+        system-api:  # 接口服务
+          path: /system-api/**
+          serviceId: service-server
+          sensitiveHeaders: "*"
+
+#设置feign客户端超时时间（OpenFeign默认支持ribbon）
+# 与host的超时时间配置不同，ribbon只在使用serviceId路由时生效
+#从逻辑上来讲，hystrixTimeout 要大于 ribbonTimeout，否则 hystrix 熔断了以后，ribbon 的重试就都没有意义了。
+ribbon:
+  #指的是建立连接所用的时间，适用于网络状况正常的情况下，两端连接所用的实际，默认2s
+  ReadTimeout: 5000
+  #指的是建立连接后从服务器读取到可用资源所用的时间，默认5s
+  ConnectTimeout: 5000
+  #MaxAutoRetries: 1 #最大重试次数，当Eureka中可以找到服务，但是服务连不上时将会重试
+  #MaxAutoRetriesNextServer: 1 #切换实例的重试次数
+
+#允许服务降级配置
+feign:
+  hystrix:
+    enabled: true
+
+#配置hystrix的超时时间，要大于(RibbonReadTimeout + RibbonConnectTimeout) * (MaxAutoRetries + 1) * (MaxAutoRetriesNextServer + 1)
+# 熔断超时时间配置，当使用了熔断机制，最好配置该超时时间，避免部分相应时间较长的请求被熔断。
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+          #feign整合hystrix 光设置Hystrix超时没用的 要配合ribbon超时
+            timeoutInMilliseconds: 20000
+          # 这里将线程策略设置为SEMAPHORE
+          strategy: SEMAPHORE

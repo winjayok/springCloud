@@ -15,4 +15,6 @@ public interface StudentService extends IService<Student> {
     boolean setObj(Student student);
 
     boolean setObj1(Student student);
+
+    Student getOne(Integer id);
 }
