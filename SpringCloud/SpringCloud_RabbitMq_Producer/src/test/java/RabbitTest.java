@@ -32,17 +32,45 @@ public class RabbitTest {
 
     private static final String DIRECT_EXCHANGE = "direct_exchange";
 
-
     @Test
-    public void send() {
+    public void directSend() {
         try {
             String createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            Map<String,Object> map=new HashMap<>();
-            map.put("messageId","1");
-            map.put("messageData","hello world");
-            map.put("createTime",createTime);
-          //  Message message = new Message("你过来啊".getBytes(), new MessageProperties());
-            rabbitTemplate.convertAndSend(DIRECT_EXCHANGE,DIRECT_ROUTING_KEY,map);
+            MessageVo messageVo = new MessageVo();
+            messageVo.setBody("这是一个直连消息队列");
+            messageVo.setValue(createTime);
+            rabbitTemplate.convertAndSend(DIRECT_EXCHANGE,DIRECT_ROUTING_KEY,messageVo);
+        }catch (Exception e){
+            System.out.println("消息发送失败");
+        }
+        System.out.println("消息发送成功");
+    }
+
+    @Test
+    public void topicSend() {
+        try {
+            MessageVo messageVo = new MessageVo();
+            messageVo.setBody("这是一个短信类主题消息队列");
+            messageVo.setValue( LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            rabbitTemplate.convertAndSend("TOPIC_EXCHANGE","topic.sms",messageVo);
+            MessageVo messageVo1 = new MessageVo();
+            messageVo1.setBody("这是一个邮件类主题消息队列");
+            messageVo1.setValue( LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            rabbitTemplate.convertAndSend("TOPIC_EXCHANGE","topic.mail",messageVo1);
+        }catch (Exception e){
+            System.out.println("消息发送失败");
+        }
+        System.out.println("消息发送成功");
+    }
+
+    @Test
+    public void fanoutSend() {
+        try {
+            String createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            MessageVo messageVo = new MessageVo();
+            messageVo.setBody("这是一个广播消息队列");
+            messageVo.setValue(createTime);
+            rabbitTemplate.convertAndSend("FANOUT_EXCHANGE",null,messageVo);
         }catch (Exception e){
             System.out.println("消息发送失败");
         }

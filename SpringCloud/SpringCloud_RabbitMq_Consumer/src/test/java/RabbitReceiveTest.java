@@ -6,6 +6,8 @@ import org.junit.jupiter.params.shadow.com.univocity.parsers.common.record.Recor
 import org.junit.runner.RunWith;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -20,6 +22,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RabbitMqConsumerApplication.class)
 public class RabbitReceiveTest {
+
+
 
     @Test
     public void tet(){

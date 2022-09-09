@@ -1,5 +1,8 @@
 package com.wj.config;
 
+import com.wj.mqEnum.ExchangeEnum;
+import com.wj.mqEnum.QueueEnum;
+import com.wj.mqEnum.RouteKeyEnum;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
@@ -24,7 +27,7 @@ public class DirectExchangeConfig {
      */
     @Bean
     public DirectExchange directExchange(){
-        return new DirectExchange("direct_exchange",true,false);
+        return new DirectExchange(ExchangeEnum.DIRECT_EXCHANGE.getExchange(),true,false);
     }
 
     /**
@@ -37,15 +40,15 @@ public class DirectExchangeConfig {
         // autoDelete:是否自动删除，当没有生产者或者消费者使用此队列，该队列会自动删除。
         //   return new Queue("TestDirectQueue",true,true,false);
         //一般设置一下队列的持久化就好,其余两个就是默认false
-        return new Queue("direct_queue",true);
+        return new Queue(QueueEnum.DIRECT_QUEUE.getQueue(),true);
     }
 
     /**
      * 绑定  将队列和交换机绑定, 并设置用于匹配键：TestDirectRouting
      */
     @Bean
-    Binding direcrBind(){
-        return BindingBuilder.bind(directQueue()).to(directExchange()).with("direct_routing_key");
+    Binding directBind(){
+        return BindingBuilder.bind(directQueue()).to(directExchange()).with(RouteKeyEnum.DIRECT_ROUTING_KEY.getRouteKey());
     }
 
 

@@ -1,5 +1,7 @@
 package com.wj.controller;
 
+import com.wj.mqEnum.ExchangeEnum;
+import com.wj.mqEnum.RouteKeyEnum;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -24,11 +26,7 @@ import java.util.Map;
 public class SendMessageController {
 
     @Autowired
-    RabbitTemplate rabbitTemplate;
-
-    private static final String DIRECT_ROUTING_KEY = "direct_routing_key";
-
-    private static final String DIRECT_EXCHANGE = "direct_exchange";
+    private RabbitTemplate rabbitTemplate;
 
     @RequestMapping("/sendMessage")
     public String sendMessage(){
@@ -39,7 +37,7 @@ public class SendMessageController {
             map.put("messageData","hello world");
             map.put("createTime",createTime);
             Message message = new Message("你好啊".getBytes(), new MessageProperties());
-            rabbitTemplate.convertAndSend(DIRECT_EXCHANGE,DIRECT_ROUTING_KEY,"message");
+            rabbitTemplate.convertAndSend(ExchangeEnum.DIRECT_EXCHANGE.getExchange(), RouteKeyEnum.DIRECT_ROUTING_KEY.getRouteKey(),"message");
         }catch (Exception e){
             return "消息发送失败："+e.getMessage();
         }
@@ -50,4 +48,6 @@ public class SendMessageController {
     public String sendMessag1e(){
         return "消息发送成功";
     }
+
+
 }
