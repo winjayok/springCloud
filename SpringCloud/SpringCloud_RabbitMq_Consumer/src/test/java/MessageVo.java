@@ -1,5 +1,3 @@
-package com.wj.consumer.vo;
-
 import com.rabbitmq.client.MessageProperties;
 
 import java.io.Serializable;
@@ -33,13 +31,5 @@ public class MessageVo implements Serializable {
 
     public void setValue(String value) {
         this.value = value;
-    }
-
-    @Override
-    public String toString() {
-        return "MessageVo1{" +
-                "Body='" + Body + '\'' +
-                ", value='" + value + '\'' +
-                '}';
     }
 }
