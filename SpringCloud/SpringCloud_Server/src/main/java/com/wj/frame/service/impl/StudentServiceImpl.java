@@ -8,7 +8,6 @@ import com.wj.frame.service.StudentService;
 import com.wj.frame.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -19,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @Date: 2022-04-30 19:57:35
  */
 @Service
-@Transactional(propagation = Propagation.REQUIRES_NEW)
+@Transactional
 @DS("master")
 public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> implements StudentService {
 
@@ -28,8 +27,8 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
     @Override
     public boolean setObj(Student student) {
-        baseMapper.insert(student);
-        //teacherService.setObj(1);
+        baseMapper.updateById(student);
+        teacherService.setObj(1);
         return true;
     }
 

@@ -6,7 +6,7 @@
  # sensitiveHeaders 敏感信息设置，如果不配置，zuul将会过滤敏感信息，导致无法实现session共享
 zuul:
 #在服务前统一加前缀
-  prefix: /winjay
+ # prefix: /winjay
   host:
       max-total-connections: 200
       max-per-route-connections: 20

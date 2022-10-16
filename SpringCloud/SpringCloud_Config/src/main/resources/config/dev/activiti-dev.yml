@@ -1,0 +1,12 @@
+spring:
+  activiti:
+    # 是否更新数据库
+    database-schema-update: true
+    # 自动部署验证设置:true-开启（默认）、false-关闭
+    check-process-definitions: false
+    # history-level属性
+    history-level: full
+    # 是否使用activti历史表
+    db-history-used: true
+    # 是否使用activti身份信息表
+    db-identity-used: false

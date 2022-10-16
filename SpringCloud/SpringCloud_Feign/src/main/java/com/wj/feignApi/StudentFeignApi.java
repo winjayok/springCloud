@@ -15,4 +15,7 @@ public interface StudentFeignApi {
 
     @RequestMapping("/student/getUserId")
     String getUserId();
+
+    @RequestMapping("/student/setObj1")
+    boolean setObj1();
 }

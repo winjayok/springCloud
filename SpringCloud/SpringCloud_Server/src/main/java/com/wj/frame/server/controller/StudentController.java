@@ -37,9 +37,20 @@ public class StudentController {
     @RequestMapping("/setObj")
     public String setObj(){
         Student student = new Student();
+        student.setId(1);
         student.setClassNo("66");
         student.setName("张思");
         studentService.setObj(student);
+        return "ok";
+    }
+
+    @RequestMapping("/setObj1")
+    public String setObj1(){
+        Student student = new Student();
+        student.setId(1);
+        student.setClassNo("66");
+        student.setName("张dsa思");
+        studentService.setObj1(student);
         return "ok";
     }
 }

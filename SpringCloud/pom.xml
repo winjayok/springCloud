@@ -12,12 +12,13 @@
     <modules>
         <module>Common</module>
         <module>DataSource</module>
+        <module>activiti</module>
         <module>SpringCloud_Feign</module>
         <module>SpringCloud_Eureka</module>
         <module>SpringCloud_Config</module>
         <module>SpringCloud_Zuul</module>
         <module>SpringCloud_Server</module>
-<!--        <module>SpringCloud_RabbitMq_Producer</module>-->
+        <!--        <module>SpringCloud_RabbitMq_Producer</module>-->
 <!--        <module>SpringCloud_RabbitMq_Consumer</module>-->
     </modules>
 
