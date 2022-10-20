@@ -10,6 +10,9 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * @PackageName: com.example.config
@@ -32,6 +35,7 @@ public class DirectExchangeConfig {
 
     /**
      * 创建一个直连队列
+     * 绑定死性队列
      */
     @Bean
     public Queue directQueue(){
@@ -40,11 +44,16 @@ public class DirectExchangeConfig {
         // autoDelete:是否自动删除，当没有生产者或者消费者使用此队列，该队列会自动删除。
         //   return new Queue("TestDirectQueue",true,true,false);
         //一般设置一下队列的持久化就好,其余两个就是默认false
-        return new Queue(QueueEnum.DIRECT_QUEUE.getQueue(),true);
+        Map<String, Object> args = new HashMap<>();
+        // x-dead-letter-exchange：这里声明当前业务队列绑定的死信交换机
+        args.put("x-dead-letter-exchange", ExchangeEnum.DEAD_EXCHANGE.getExchange());
+        // x-dead-letter-routing-key：这里声明当前业务队列的死信路由 key
+        args.put("x-dead-letter-routing-key", RouteKeyEnum.DEAD_DIRECT_ROUTING_KEY.getRouteKey());
+        return new Queue(QueueEnum.DIRECT_QUEUE.getQueue(),true,false,false,args);
     }
 
     /**
-     * 绑定  将队列和交换机绑定, 并设置用于匹配键：TestDirectRouting
+     * 绑定  将队列和交换机绑定, 并设置用于匹配键：DIRECT_ROUTING_KEY
      */
     @Bean
     Binding directBind(){

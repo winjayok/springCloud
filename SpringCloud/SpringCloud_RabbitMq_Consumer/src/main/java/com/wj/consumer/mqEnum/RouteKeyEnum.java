@@ -1,4 +1,4 @@
-package com.wj.mqEnum;
+package com.wj.consumer.mqEnum;
 
 /**
  * @Package: com.wj.mqEnum

@@ -2,6 +2,7 @@ package com.wj.controller;
 
 import com.wj.mqEnum.ExchangeEnum;
 import com.wj.mqEnum.RouteKeyEnum;
+import com.wj.vo.MessageVo;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -32,12 +33,10 @@ public class SendMessageController {
     public String sendMessage(){
         try {
             String createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            Map<String,Object> map=new HashMap<>();
-            map.put("messageId","1");
-            map.put("messageData","hello world");
-            map.put("createTime",createTime);
-            Message message = new Message("你好啊".getBytes(), new MessageProperties());
-            rabbitTemplate.convertAndSend(ExchangeEnum.DIRECT_EXCHANGE.getExchange(), RouteKeyEnum.DIRECT_ROUTING_KEY.getRouteKey(),"message");
+            MessageVo messageVo = new MessageVo();
+            messageVo.setBody("这是一个死性消息队列");
+            messageVo.setValue(createTime);
+            rabbitTemplate.convertAndSend(ExchangeEnum.DIRECT_EXCHANGE.getExchange(), RouteKeyEnum.DIRECT_ROUTING_KEY.getRouteKey(),messageVo);
         }catch (Exception e){
             return "消息发送失败："+e.getMessage();
         }

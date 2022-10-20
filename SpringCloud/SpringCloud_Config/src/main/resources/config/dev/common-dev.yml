@@ -1,5 +1,12 @@
 logging:
-  config: I:/git_project/统一日志/log4j2-spring.xml
+  config: E:/统一日志/log4j2-spring.xml
   file:
-    path: I:/git_project/统一日志/${spring.application.name}
-
+    path: E:/统一日志/${spring.application.name}
+#logging:
+#  config: E:\\统一日志\\logback.xml
+#  # config 配置文件路径，设置成固定路径，这样全部服务使用同一个logback的配置文件
+#  # config: F:\\logs\\logback.xml
+#  # 生成的日志文件目录
+#  path: E:\\统一日志\\winjay
+#  root: INFO
+#  loglev: 0

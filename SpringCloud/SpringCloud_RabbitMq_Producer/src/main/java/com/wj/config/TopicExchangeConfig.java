@@ -63,6 +63,8 @@ public class TopicExchangeConfig {
     // 这样只要是消息携带的路由键是以topic.开头,都会分发到该队列
     //* - 表示任意的一个单词
     //# - 表示0个或多个单词
+    //例如：item.#既可以匹配item.abc，也可以匹配item.abc.de
+    //而 item.*只能匹配item.abc
     @Bean
     public Binding bindingExchangeSecondQueue(){
         return BindingBuilder.bind(secondQueue()).to(topicExchange()).with(TOPIC_ALL);

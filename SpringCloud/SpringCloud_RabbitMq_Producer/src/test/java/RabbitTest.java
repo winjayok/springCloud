@@ -28,9 +28,9 @@ public class RabbitTest {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    private static final String DIRECT_ROUTING_KEY = "direct_routing_key";
+    private static final String DIRECT_ROUTING_KEY = "DIRECT_ROUTING_KEY";
 
-    private static final String DIRECT_EXCHANGE = "direct_exchange";
+    private static final String DIRECT_EXCHANGE = "DIRECT_EXCHANGE";
 
     @Test
     public void directSend() {
@@ -40,10 +40,10 @@ public class RabbitTest {
             messageVo.setBody("这是一个直连消息队列");
             messageVo.setValue(createTime);
             rabbitTemplate.convertAndSend(DIRECT_EXCHANGE,DIRECT_ROUTING_KEY,messageVo);
+            System.out.println("消息发送成功");
         }catch (Exception e){
             System.out.println("消息发送失败");
         }
-        System.out.println("消息发送成功");
     }
 
     @Test
@@ -56,7 +56,7 @@ public class RabbitTest {
             MessageVo messageVo1 = new MessageVo();
             messageVo1.setBody("这是一个邮件类主题消息队列");
             messageVo1.setValue( LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-            rabbitTemplate.convertAndSend("TOPIC_EXCHANGE","topic.mail",messageVo1);
+            rabbitTemplate.convertAndSend("TOPIC_EXCHANGE","topic.mail.test",messageVo1);
         }catch (Exception e){
             System.out.println("消息发送失败");
         }

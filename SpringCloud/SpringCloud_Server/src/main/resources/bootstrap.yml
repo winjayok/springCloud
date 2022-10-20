@@ -21,7 +21,7 @@ spring:
       # label 所在文件夹名称，或者git分支名称master
       label: ${spring.profiles.active}
       # name 指定配置文件名称，多个配置文件则用英文逗号分割，比如：jdbc-dev.properties 则这里填写jdbc
-      name: common,jdbc,redis,activiti
+      name: common,jdbc-dm,redis,activiti
       # profile 用于指定当前环境类型，通常有：dev、test、uat,拼接name：jdbc-dev
       profile: ${spring.profiles.active}
       # fail-fast 如果访问配置中心失败，则停止启动服务

@@ -1,7 +1,7 @@
 spring:
   activiti:
     # 是否更新数据库
-    database-schema-update: true
+    database-schema-update: false
     # 自动部署验证设置:true-开启（默认）、false-关闭
     check-process-definitions: false
     # history-level属性
