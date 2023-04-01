@@ -66,6 +66,13 @@
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
         </dependency>
+
+        <!--公共类-->
+        <dependency>
+            <groupId>com.wj</groupId>
+            <artifactId>common</artifactId>
+            <version>1.1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

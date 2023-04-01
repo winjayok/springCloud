@@ -3,8 +3,12 @@ package com.wj.frame.server.controller;
 import com.wj.feignApi.StudentFeignApi;
 import com.wj.frame.entity.student.Student;
 import com.wj.frame.service.StudentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -17,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/student")
 public class StudentController {
+
+    private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
 
     @Autowired
     private StudentService studentService;
@@ -52,5 +58,17 @@ public class StudentController {
         student.setName("张dsa思");
         studentService.setObj1(student);
         return "ok";
+    }
+
+    @RequestMapping(value = "/getParam",method = RequestMethod.POST)
+    public String getParam(String username,String password,String captcha, boolean isRememberMe){
+        System.out.println(username);
+        System.out.println(password);
+        return username + password;
+    }
+
+    @PostMapping("/getParam1")
+    public String getParam1(String username,String password,String captcha, boolean isRememberMe){
+        return password;
     }
 }

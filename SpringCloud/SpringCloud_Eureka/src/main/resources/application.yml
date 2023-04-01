@@ -4,13 +4,18 @@ server:
 eureka:
   instance:
     hostname: 127.0.0.1
+    instance-id: ${eureka.instance.hostname}:${server.port}   # 服务实例Id
+    prefer-ip-address: true  #访问路径可以显示IP地址
   server:
     enable-self-preservation: false
   client:
     registerWithEureka: false
-    fetchRegistry: false
+    fetchRegistry: false # 是否从注册中心抓取已有的注册信息，默认true，集群必须设置为true
     serviceUrl:
+      # 单机
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      # 集群1
+      # defaultZone: http://eureka8003:8003/eureka/
 
 spring:
   application:

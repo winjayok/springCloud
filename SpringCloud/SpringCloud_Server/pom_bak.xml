@@ -1,0 +1,195 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">-->
+<!--    <modelVersion>4.0.0</modelVersion>-->
+
+<!--    <parent>-->
+<!--        <artifactId>SpringCloud</artifactId>-->
+<!--        <groupId>com.wj</groupId>-->
+<!--        <version>1.1.0</version>-->
+<!--    </parent>-->
+
+<!--    <groupId>com.wj</groupId>-->
+<!--    <artifactId>springcloud_server</artifactId>-->
+<!--    <version>${parent.version}</version>-->
+<!--    <name>SpringCloud_Server</name>-->
+<!--    <description>SpringCloud_Server</description>-->
+<!--    <packaging>war</packaging>-->
+<!--    -->
+<!--    <properties>-->
+<!--        <failOnMissingWebXml>false</failOnMissingWebXml>-->
+<!--    </properties>-->
+
+<!--    <dependencies>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-web</artifactId>-->
+<!--            <exclusions>-->
+<!--                &lt;!&ndash;排出内部的日志依赖&ndash;&gt;-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.boot</groupId>-->
+<!--                    <artifactId>spring-boot-starter-logging</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.boot</groupId>-->
+<!--                    <artifactId>spring-boot-starter-tomcat</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-tomcat</artifactId>-->
+<!--            &lt;!&ndash;打包的时候可以不用包进去，别的设施会提供。事实上该依赖理论上可以参与编译，测试，运行等周期。-->
+<!--               相当于compile，但是打包阶段做了exclude操作&ndash;&gt;-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>javax.servlet</groupId>-->
+<!--            <artifactId>javax.servlet-api</artifactId>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.boot</groupId>-->
+<!--                    <artifactId>spring-boot-starter-tomcat</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; SpringCloud配置启动器 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-config</artifactId>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-actuator</artifactId>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash;引入工具类jar包&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.wj</groupId>-->
+<!--            <artifactId>common</artifactId>-->
+<!--            <version>${parent.version}</version>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash;引入数据库jar包&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.wj</groupId>-->
+<!--            <artifactId>dataSource</artifactId>-->
+<!--            <version>${parent.version}</version>-->
+<!--            <exclusions>-->
+<!--                &lt;!&ndash;排出内部的依赖&ndash;&gt;-->
+<!--                <exclusion>-->
+<!--                    <groupId>com.wj</groupId>-->
+<!--                    <artifactId>common</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash;引入openfeign包&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.wj</groupId>-->
+<!--            <artifactId>springCloud_feign</artifactId>-->
+<!--            <version>${parent.version}</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.security</groupId>-->
+<!--                    <artifactId>spring-security-rsa</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.security</groupId>-->
+<!--                    <artifactId>spring-security-crypto</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework</groupId>-->
+<!--                    <artifactId>*</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>HdrHistogram</artifactId>-->
+<!--                    <groupId>org.hdrhistogram</groupId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash;引入activiti&ndash;&gt;-->
+<!--&lt;!&ndash;        <dependency>&ndash;&gt;-->
+<!--&lt;!&ndash;            <groupId>com.wj</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;            <artifactId>activiti</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;            <version>${parent.version}</version>&ndash;&gt;-->
+<!--&lt;!&ndash;            <exclusions>&ndash;&gt;-->
+<!--&lt;!&ndash;                <exclusion>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <groupId>com.alibaba</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <artifactId>druid-spring-boot-starter</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;                </exclusion>&ndash;&gt;-->
+<!--&lt;!&ndash;                <exclusion>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <groupId>com.github.hiwepy</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <artifactId>security-cas-spring-boot-starter</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;                </exclusion>&ndash;&gt;-->
+<!--&lt;!&ndash;            </exclusions>&ndash;&gt;-->
+<!--&lt;!&ndash;        </dependency>&ndash;&gt;-->
+<!--    </dependencies>-->
+
+<!--    <build>-->
+<!--    <finalName>${name}-${parent.version}</finalName>-->
+<!--    <resources>-->
+<!--        <resource>-->
+<!--            <directory>src/main/java</directory>&lt;!&ndash;java文件的路径&ndash;&gt;-->
+<!--            <includes>-->
+<!--                <include>**/*.*</include>-->
+<!--            </includes>-->
+<!--            &lt;!&ndash; <filtering>false</filtering>&ndash;&gt;-->
+<!--        </resource>-->
+<!--        <resource>-->
+<!--            <directory>src/main/resources</directory>&lt;!&ndash;资源文件的路径&ndash;&gt;-->
+<!--            <includes>-->
+<!--                <include>**/*.*</include>-->
+<!--            </includes>-->
+<!--            &lt;!&ndash; <filtering>false</filtering>&ndash;&gt;-->
+<!--        </resource>-->
+<!--    </resources>-->
+<!--    <plugins>-->
+<!--            <plugin>-->
+<!--                &lt;!&ndash;跳过打包测试&ndash;&gt;-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-surefire-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <skip>true</skip>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--&lt;!&ndash;            <plugin>&ndash;&gt;-->
+<!--&lt;!&ndash;                <groupId>org.springframework.boot</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;                <artifactId>spring-boot-maven-plugin</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;                <version>2.3.4.RELEASE</version>&ndash;&gt;-->
+<!--&lt;!&ndash;                <configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <fork>false</fork>&ndash;&gt;-->
+<!--&lt;!&ndash;                </configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;            </plugin>&ndash;&gt;-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <source>1.8</source>-->
+<!--                    <target>1.8</target>-->
+<!--                    <skip>true</skip>-->
+<!--                    <encoding>UTF-8</encoding>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                &lt;!&ndash;热部署配置&ndash;&gt;-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    &lt;!&ndash;fork:如果没有该项配置,整个devtools不会起作用&ndash;&gt;-->
+<!--                    <fork>true</fork>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
+<!--</project>-->

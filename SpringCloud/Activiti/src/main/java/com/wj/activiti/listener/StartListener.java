@@ -14,7 +14,6 @@ import java.util.Arrays;
  * @Author: Winjay
  * @Date: 2022-10-16 22:48:02
  */
-@Component
 public class StartListener implements ExecutionListener , TaskListener{
 
     protected static final Logger logger = LoggerFactory.getLogger(StartListener.class);
@@ -60,7 +59,7 @@ public class StartListener implements ExecutionListener , TaskListener{
         this.taskType = taskType;
     }
 
-    private static final String approver = "张三,李思";
+    private static final String approver = "王五,李思";
 
     /**
      * @description:ExecutionListener监听开始结束
@@ -91,7 +90,7 @@ public class StartListener implements ExecutionListener , TaskListener{
             logger.info("take......");
         }
         delegateExecution.setVariable(taskKeyList.getExpressionText(), Arrays.asList(approver.split(",")));
-        delegateExecution.setVariable(taskKey.getExpressionText(),"张三");
+       // delegateExecution.setVariable(taskKey.getExpressionText(),"张三");
     }
 
     /**

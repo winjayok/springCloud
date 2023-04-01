@@ -1,5 +1,6 @@
 package com.wj.activiti.component;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
@@ -16,8 +17,10 @@ import org.activiti.engine.repository.Model;
 import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.activiti.engine.task.TaskInfo;
 import org.activiti.image.impl.DefaultProcessDiagramGenerator;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +29,13 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @PackageName: com.wj.activiti.component
  * @ClassName: WorkFlowUtils
- * @Description: 流程工具类
+ * @Description:工作流实现类
  * @Author: Winjay
  * @Date: 2022-10-16 23:33:44
  */
@@ -71,7 +72,7 @@ public class WorkFlowService {
      * @param id
      * @return: java.lang.String
      **/
-    public String deploy(String id) {
+    public String deployRepository(String id) {
         try {
             Model modelData = repositoryService.getModel(id);
             JsonNode modelNode = new ObjectMapper().readTree(repositoryService.getModelEditorSource(modelData.getId()));
@@ -81,6 +82,9 @@ public class WorkFlowService {
             Deployment deployment = repositoryService.createDeployment().name(modelData.getName())
                     .addString(processName, new String(bpmnBytes, "UTF-8")).deploy();
             modelData.setDeploymentId(deployment.getId());
+            if(modelData.getDeploymentId() != null){
+                modelData.setVersion(modelData.getVersion()+1);
+            }
             repositoryService.saveModel(modelData);
             return deployment.getId();
         } catch (Exception e) {
@@ -89,47 +93,83 @@ public class WorkFlowService {
         }
     }
 
-
     /**
-     * 流程启动
-     * @return
-     */
-    public boolean start(){
-        //①key：流程key
-        //②businesskey：业务表ID，例如请假表，包含了请假人，起止时间等。
-        //③vars：流程变量
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("process_leave");
-        //输出相关信息
-        System.out.println("流程部署id" + processInstance.getDeploymentId());
-        System.out.println("流程定义id" + processInstance.getProcessDefinitionId());
-        System.out.println("流程实例id" + processInstance.getId());
-        System.out.println("活动id" + processInstance.getActivityId());
+     * @description:流程删除，
+     * 非级联删除：只能删除没有启动的流程，如果流程启动，就会抛出异常
+     * 级联删除：能删除启动的流程，会删除和当前规则相关的所有信息，正在执行的信息，也包括历史信息
+     * @author: Winjay
+     * @date: 2022/10/23 12:51
+     * @return: boolean
+     **/
+    public boolean deleteRepository(String deploymentId){
+        try {
+            processEngine.getRepositoryService()//与流程定义和部署对象相关的Service
+                    .deleteDeployment(deploymentId);
+        } catch (Exception e) {
+            throw new RuntimeException("当前流程存在审批中的任务，无法删除！");
+        }
         return true;
     }
 
     /**
-     * @description:执行任务
+     * @description:完成当前任务
      * @author: Winjay
      * @date: 2022/10/17 11:23
      * @param assignee
      * @return: boolean
      **/
-    public boolean completeTask(String assignee) {
+    public boolean completeTask(String instanceId,String assignee) {
         System.out.println(assignee);
-        //3.查询当前用户的任务
+        //3.查询当前用户的任务,查询条件为候选人为assignee，并且还没有被签收，然后才对查询结果进行签收
         Task task = taskService.createTaskQuery()
-                .processDefinitionKey("process_leave")
-                .taskAssignee(assignee)
+                .processDefinitionKey("leave_process")
+                .processInstanceId(instanceId)
                 .singleResult();
+
+        Optional.ofNullable(task).orElseThrow(() -> new RuntimeException("当前流程实例下没有活动的任务："+instanceId));
+
+        if(StringUtils.isBlank(task.getAssignee())){
+            LOGGER.error("当前任务没有被任何人签收！");
+            return false;
+        }
+        if(!assignee.equals(task.getAssignee())){
+            List<Task> leave_process = taskService.createTaskQuery().processDefinitionKey("leave_process").list();
+            List<String> list = leave_process.stream().map(TaskInfo::getAssignee).collect(Collectors.toList());
+            LOGGER.error("当前任务不属于代理人{},应该属于{}",assignee,JSONObject.toJSONString(list));
+            throw new RuntimeException("当前任务不属于代理人"+assignee);
+        }
+
+//        try {
+//            taskService.addCandidateUser(task.getId(),assignee);
+//        } catch (Exception e) {
+//            LOGGER.error("当前任务不属于代理人{}，应该属于{}",assignee,task.getAssignee());
+//            throw new RuntimeException("error");
+//        }
+
+
+        LOGGER.info("当前任务ID：{}",task.getId());
+        LOGGER.info("任务代理人：{}",task.getAssignee());
+        LOGGER.info("任名称：{}",task.getName());
+        LOGGER.info("任务流程参数：{}", JSONObject.toJSONString(task.getProcessVariables()));
+        LOGGER.info("任务当前参数：{}", JSONObject.toJSONString(task.getTaskLocalVariables()));
+
+
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
+
+        LOGGER.info("当前示例ID：{}",processInstance.getId());
+        LOGGER.info("示例流程参数：{}", JSONObject.toJSONString(runtimeService.getVariables(processInstance.getId())));
+        LOGGER.info("示例当前参数：{}", JSONObject.toJSONString(processInstance.getName()));
 
         //4.处理任务,结合当前用户任务列表的查询操作的话,任务ID:task.getId()
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("pass", "1");
+        //variables.put("zg","winjay");
 
+        taskService.addComment(task.getId(),task.getProcessInstanceId(),"通过");
         taskService.complete(task.getId(), variables);
 
         //5.输出任务的id
-        System.out.println(task.getId());
+        LOGGER.info("下一个任务ID：{}",task.getId());
         return true;
     }
 

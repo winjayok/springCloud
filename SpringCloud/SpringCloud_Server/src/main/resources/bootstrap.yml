@@ -1,42 +1,50 @@
-server:
-  port: 9001
-
 eureka:
   instance:
-    instance-id: 127.0.0.1:${server.port}
-    prefer-ip-address: true
+    preferIpAddress: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
   client:
     serviceUrl:
-      defaultZone: http://127.0.0.1:8003/eureka/
+      #      本地
+      defaultZone: http://admin:Gjntgb10.1@127.0.0.1:8008/eureka/
+      #      本地集群
+      #      defaultZone: http://admin:Gjntgb10.1@127.0.0.1:6002/eureka/,http://admin:Gjntgb10.1@127.0.0.1:6001/eureka/,http://admin:Gjntgb10.1@127.0.0.1:6003/eureka/
+      #   集群
+      #defaultZone: http://admin:Gjntgb10.1@10.64.167.21:8008/eureka/,http://admin:Gjntgb10.1@10.64.167.22:8008/eureka/,http://admin:Gjntgb10.1@10.64.167.23:8008/eureka/
 
+server:
+  port: 8056
 spring:
-  mvc:
-    static-path-pattern: /static/**
-  application:
-    name: service-server
   profiles:
-    active: dev
+    active: xcdev
+  application:
+    name: server-service
   cloud:
     config:
-      # label 所在文件夹名称，或者git分支名称master
-      label: ${spring.profiles.active}
       # name 指定配置文件名称，多个配置文件则用英文逗号分割，比如：jdbc-dev.properties 则这里填写jdbc
-      name: common,jdbc-dm,redis,activiti
-      # profile 用于指定当前环境类型，通常有：dev、test、uat,拼接name：jdbc-dev
+      name: common, redis, shiro, jdbc
+      label: ${spring.profiles.active}
+      # profile 用于指定当前环境类型，通常有：dev、test、uat
       profile: ${spring.profiles.active}
+      #profile: uat
       # fail-fast 如果访问配置中心失败，则停止启动服务
       fail-fast: true
       # retry 访问配置中心失败时的重试策略
       retry:
-          initial-interval: 2000
-          # 最多重试次数
-          max-attempts: 6
-          # 最大重试间隔
-          max-interval: 4000
-          # 每次重试时间是之前的倍数
-          multiplier: 1.2
+        initial-interval: 2000
+        # 最多重试次数
+        max-attempts: 6
+        # 最大重试间隔
+        max-interval: 4000
+        # 每次重试时间是之前的倍数
+        multiplier: 1.2
+      #局域网内使用discovery配置，外网链接需要直接指定配置中心的ip跟端口，否则会读取到服务器的内网ip
       discovery:
         # 开启配置中心服务发现支持
         enabled: true
         # 配置中心服务的id
-        service-id: service-config
+        service-id: config-service
+  freemarker:
+    template-loader-path: classpath:/ftl/
+  resources:
+    static-locations: classpath:/resources/
+

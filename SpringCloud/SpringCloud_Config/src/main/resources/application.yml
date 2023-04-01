@@ -5,9 +5,12 @@ eureka:
   instance:
     instance-id: 127.0.0.1:${server.port}
     prefer-ip-address: true
+    fetchRegistry: true # 是否从注册中心抓取已有的注册信息，默认true，集群必须设置为true
   client:
     serviceUrl:
       defaultZone: http://127.0.0.1:8003/eureka/
+      #defaultZone: http://eureka8014:8014/eureka/,http://eureka8003:8003/eureka/,
+
 
 spring:
   application:

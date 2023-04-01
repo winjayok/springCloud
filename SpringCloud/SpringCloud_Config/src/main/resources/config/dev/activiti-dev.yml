@@ -9,4 +9,4 @@ spring:
     # 是否使用activti历史表
     db-history-used: true
     # 是否使用activti身份信息表
-    db-identity-used: false
+    db-identity-used: true
